@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #007074; /* لون براند عون الخاص بك */
+}
+
+/* السطر ده هو اللي هيشغل الزرار */
+@custom-variant dark (&:where(.dark, .dark *));
