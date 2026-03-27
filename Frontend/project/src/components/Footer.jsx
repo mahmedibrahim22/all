@@ -1,5 +1,7 @@
 import React from 'react';
 import { assets } from '../assets/assets.js';
+// 1. استيراد اللوجو مباشرة من المسار الصحيح
+import logoImg from '../assets/logo.png'; 
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -29,25 +31,19 @@ const Footer = () => {
       <div className='max-w-7xl mx-auto px-8 py-20'>
         <div className='grid grid-cols-1 lg:grid-cols-4 gap-16'>
           
-          {/* لوجو عَوْن ووصف المنصة */}
+          {/* سكشن اللوجو */}
           <div className='lg:col-span-2 space-y-8'>
-            <motion.div whileHover={{ scale: 1.05 }} className='bg-white p-3 inline-block rounded-2xl'>
-              <img onClick={() => handleNavigation('/')} className='w-32 cursor-pointer' src={assets.logo} alt="Aoun Logo" />
-            </motion.div>
-            <p className='text-slate-400 leading-9 text-lg max-w-lg font-medium'>
-              نحن في منصة <span className='text-teal-400 font-bold'>عَوْن</span> نسعى لتسخير التكنولوجيا لخدمة صحة المريض المصري، ليكون الوصول لأفضل الأطباء تجربة بسيطة وسلسة.
+            {/* 2. تم تغيير src ليقرأ الصورة المستوردة مباشرة */}
+            <img 
+                onClick={() => { handleNavigation('/home'); }} 
+                className='w-48 md:w-64 cursor-pointer transition-all duration-500 hover:scale-105 filter dark:brightness-125 dark:drop-shadow-[0_0_15px_rgba(20,184,166,0.3)]' 
+                src={logoImg} 
+                alt="Aoun Logo" 
+            />
+            
+            <p className='text-slate-500 dark:text-slate-400 leading-9 text-lg max-w-lg font-medium'>
+                نحن في منصة <span className='text-teal-600 dark:text-teal-400 font-bold'>عَوْن</span> نسعى لتسخير التكنولوجيا لخدمة صحة المريض المصري، ليكون الوصول لأفضل الأطباء تجربة بسيطة وسلسة.
             </p>
-            <div className='flex justify-start gap-4'>
-               {[
-                 { icon: <Icons.Linkedin />, link: 'https://linkedin.com/in/mohamed-ibrahim' },
-                 { icon: <Icons.Github />, link: 'https://github.com/mohamed' },
-                 { icon: <Icons.Globe />, link: '#' }
-               ].map((social, index) => (
-                 <motion.a key={index} href={social.link} target="_blank" whileHover={{ y: -5, backgroundColor: '#14b8a6' }} className='w-12 h-12 rounded-xl bg-slate-800/50 flex items-center justify-center text-slate-400 border border-slate-700/50 transition-all'>
-                   {social.icon}
-                 </motion.a>
-               ))}
-            </div>
           </div>
 
           {/* روابط سريعة */}

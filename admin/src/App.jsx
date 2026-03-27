@@ -4,9 +4,24 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AdminContext } from './context/AdminContext'
 import { DoctorContext } from './context/DoctorContext'
-import Login from './pages/Login'
+
+// Components
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
+
+// Pages
+import Login from './pages/Login'
+
+// Admin Pages
+import Dashboard from './pages/Admin/Dashboard'
+import AddDoctor from './pages/Admin/AddDoctor'
+import DoctorsList from './pages/Admin/DoctorsList'
+import AllAppointments from './pages/Admin/AllAppointments'
+import PharmaciesList from './pages/Admin/PharmaciesList'
+import DeliveryList from './pages/Admin/DeliveryList'
+import LabsList from './pages/Admin/LabsList'
+
+// Doctor Pages
 import DoctorDashboard from './pages/Doctor/DoctorDashboard'
 import DoctorAppointments from './pages/Doctor/DoctorAppointments'
 import DoctorProfile from './pages/Doctor/DoctorProfile'
@@ -17,7 +32,6 @@ const App = () => {
 
   return (
     <div className='bg-[#F8F9FD] min-h-screen'>
-      {/* إضافة limit={1} لمنع تكدس التنبيهات */}
       <ToastContainer position="top-right" autoClose={3000} limit={1} />
       
       {!aToken && !dToken ? (
@@ -27,9 +41,23 @@ const App = () => {
           <Navbar />
           <div className='flex items-start'>
             <Sidebar />
-            <div className='w-full'> 
+            <div className='w-full m-5'> 
               <Routes>
-                {/* مسارات الطبيب */}
+                {/* 🛡️ مسارات الأدمن - تم الربط مع Dashboard الصحيحة */}
+                {aToken && (
+                  <>
+                    <Route path='/' element={<Navigate to='/admin-dashboard' />} />
+                    <Route path='/admin-dashboard' element={<Dashboard />} /> 
+                    <Route path='/add-doctor' element={<AddDoctor />} />
+                    <Route path='/doctors-list' element={<DoctorsList />} />
+                    <Route path='/all-appointments' element={<AllAppointments />} />
+                    <Route path='/pharmacies-list' element={<PharmaciesList />} />
+                    <Route path='/delivery-list' element={<DeliveryList />} />
+                    <Route path='/labs-list' element={<LabsList />} />
+                  </>
+                )}
+
+                {/* 🩺 مسارات الطبيب */}
                 {dToken && (
                   <>
                     <Route path='/' element={<Navigate to='/doctor-dashboard' />} />
@@ -38,14 +66,7 @@ const App = () => {
                     <Route path='/doctor-profile' element={<DoctorProfile />} />
                   </>
                 )}
-                {/* مسارات الأدمن */}
-                {aToken && (
-                  <>
-                    <Route path='/' element={<Navigate to='/admin-dashboard' />} />
-                    <Route path='/admin-dashboard' element={<DoctorDashboard />} /> 
-                  </>
-                )}
-                {/* أي مسار آخر يرجع للرئيسية */}
+
                 <Route path='*' element={<Navigate to='/' />} />
               </Routes>
             </div>

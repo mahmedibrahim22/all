@@ -17,4 +17,12 @@ export const specialityData = [
     { speciality: 'Pediatricians', image: "https://cdn-icons-png.flaticon.com/512/2785/2785521.png" },
     { speciality: 'Neurologist', image: "https://cdn-icons-png.flaticon.com/512/2785/2785531.png" },
     { speciality: 'Gastroenterologist', image: "https://cdn-icons-png.flaticon.com/512/2785/2785541.png" },
+    // 🆕 تم إضافة التخصصات الإضافية هنا
+    { speciality: 'Cardiologist', image: "https://cdn-icons-png.flaticon.com/512/10041/10041267.png" }, // قلب
+    { speciality: 'Otolaryngology', image: "https://cdn-icons-png.flaticon.com/512/10041/10041303.png" }, // أنف وأذن
+    { speciality: 'Orthopedic', image: "https://cdn-icons-png.flaticon.com/512/10041/10041467.png" }, // عظام
+    { speciality: 'Psychiatrist', image: "https://cdn-icons-png.flaticon.com/512/10041/10041289.png" }, // نفسية
+    { speciality: 'Surgeon', image: "https://cdn-icons-png.flaticon.com/512/10041/10041551.png" }, // جراحة
+    { speciality: 'Ophthalmologist', image: "https://cdn-icons-png.flaticon.com/512/10041/10041328.png" }, // عيون
+    { speciality: 'Urologist', image: "https://cdn-icons-png.flaticon.com/512/10041/10041517.png" }, // مسالك
 ]

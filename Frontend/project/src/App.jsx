@@ -15,6 +15,12 @@ import MyProfile from "./pages/MyProfile.jsx";
 import MyAppointments from "./pages/MyAppointments.jsx";
 import Appointment from "./pages/Appointment.jsx";
 import RoleSelection from "./pages/RoleSelection.jsx";
+
+// 🆕 استيراد الصفحات الجديدة (تأكد من وجود الملفات في فولدر pages)
+import Pharmacies from "./pages/Pharmacies.jsx";
+import Medicine from "./pages/Medicine.jsx";
+import Labs from "./pages/Labs.jsx";
+
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
@@ -32,7 +38,6 @@ const App = () => {
     return savedTheme ? savedTheme === "dark" : true;
   });
 
-  // 1. ربط الثيم بالـ HTML وتنعيم الانتقال
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -49,7 +54,6 @@ const App = () => {
     }
   }, [token, dispatch]);
 
-  // 2. إدارة التنبيهات مع السوكيت بشكل احترافي
   useEffect(() => {
     if (userData?._id) {
       socket.emit("join_room", userData._id);
@@ -63,10 +67,10 @@ const App = () => {
     return () => socket.off("appointment_status");
   }, [userData, darkMode]);
 
+  // التحقق إذا كنا في صفحة اختيار الدور أو صفحات الهبوط التي لا تحتاج Navbar
   const isRolePage = location.pathname === "/";
 
   return (
-    // 3. الخلفية هنا أصبحت أهدى (Slate-50 لليل و Dark-[#0b1120] لليوم) مع تنعيم حركة الألوان
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0b1120] text-slate-900 dark:text-slate-100 transition-colors duration-500 ease-in-out selection:bg-teal-500/30">
       
       <ToastContainer
@@ -76,13 +80,11 @@ const App = () => {
         toastStyle={{ borderRadius: '12px' }}
       />
       
-      {/* تأكد أن ScrollToTop موجود هنا ليعمل مع كل ROUTES */}
       <ScrollToTop />
 
-      {/* الناف بار */}
+      {/* عرض الـ Navbar فقط إذا لم نكن في صفحة اختيار الدور */}
       {!isRolePage && <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />}
 
-      {/* 4. توزيع المحتوى بـ Padding علوي مناسب (pt-24) لمنع تداخل المحتوى مع الناف بار الثابت */}
       <div 
         className={`${
           !isRolePage 
@@ -95,11 +97,18 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/doctors/:speciality" element={<Doctors />} />
+          
+          {/* 🆕 مسارات الخدمات الطبية المضافة (عون) */}
+          <Route path="/pharmacies" element={<Pharmacies />} />
+          <Route path="/medicine/:id" element={<Medicine />} />
+          <Route path="/labs" element={<Labs />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/appointment/:docId" element={<Appointment />} />
 
+          {/* المسارات المحمية */}
           <Route
             path="/my-profile"
             element={
@@ -118,18 +127,21 @@ const App = () => {
             }
           />
 
+          {/* صفحة 404 احترافية */}
           <Route
             path="*"
             element={
-              <div className="flex flex-col items-center justify-center py-20">
-                <h2 className="text-4xl font-bold text-slate-300 dark:text-slate-700">404</h2>
-                <p className="text-slate-500">عذراً، الصفحة غير موجودة</p>
+              <div className="flex flex-col items-center justify-center py-20 text-right">
+                <div className="text-9xl font-black text-slate-200 dark:text-slate-800 animate-pulse">404</div>
+                <h2 className="text-2xl font-bold text-slate-400 -mt-8 mb-4">الصفحة غير موجودة</h2>
+                <p className="text-slate-500 font-medium">عذراً، الرابط الذي تحاول الوصول إليه غير متاح حالياً</p>
               </div>
             }
           />
         </Routes>
       </div>
 
+      {/* عرض الـ Footer فقط إذا لم نكن في صفحة اختيار الدور */}
       {!isRolePage && <Footer />}
     </div>
   );

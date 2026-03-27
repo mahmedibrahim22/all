@@ -1,9 +1,11 @@
 import multer from "multer";
 
 const storage = multer.diskStorage({
-    // لازم نحدد مسار التخزين المؤقت (destination)
+    // ✅ لازم نحدد المكان اللي الملف هيتحط فيه مؤقتاً
+    destination: function (req, file, callback) {
+        callback(null, 'uploads/') 
+    },
     filename: function (req, file, callback) {
-        // بنستخدم التاريخ مع اسم الملف عشان نضمن إن الاسم ميتكررش
         callback(null, Date.now() + file.originalname)
     }
 });

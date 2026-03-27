@@ -1,33 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* تطبيق خط Outfit على المشروع بالكامل */
-@layer base {
-  html, body {
-    font-family: 'Outfit', sans-serif;
-    scroll-behavior: smooth; /* حركة ناعمة عند التنقل بين الأقسام */
-  }
+:root {
+  --color-primary: #007074;
 }
 
-/* إخفاء شريط التمرير (Scrollbar) مع الحفاظ على إمكانية التمرير */
-@layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-}
-
-/* التنسيق العالمي اللي إنت عملته لشريط التمرير في كل المشروع */
-* {
-  font-family: 'Outfit', sans-serif;
-}
-
-::-webkit-scrollbar {
-  display: none; /* إخفاء السكرول بار في المتصفحات المبنية على Webkit مثل Chrome */
-}
+@custom-variant dark (&:where(.dark, .dark *));

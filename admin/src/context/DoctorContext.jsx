@@ -17,9 +17,13 @@ const DoctorContextProvider = (props) => {
         window.location.href = '/'; 
     };
 
-    const getHeaders = () => ({ headers: { dtoken: dToken } });
+    const getHeaders = () => ({ 
+        headers: { 
+            dtoken: dToken,
+            token: dToken 
+        } 
+    });
 
-    // دالة جلب بيانات البروفايل (كانت ناقصة)
     const getProfileData = async () => {
         try {
             const { data } = await axios.get(backendUrl + '/api/doctor/profile', getHeaders());
@@ -87,13 +91,27 @@ const DoctorContextProvider = (props) => {
         }
     };
 
+    // ✅ إضافة دالة تغيير الحالة لو حبيت تستخدمها في قائمة الأطباء
+    const changeAvailability = async (docId) => {
+        try {
+            const { data } = await axios.post(backendUrl + '/api/admin/change-availability', { docId }, getHeaders());
+            if (data.success) {
+                toast.success(data.message);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     const value = {
         dToken, setDToken, backendUrl,
         getAppointments, appointments, setAppointments,
         getDashData, dashData, setDashData,
         completeAppointment, cancelAppointment,
-        profileData, setProfileData, getProfileData, // تمت الإضافة هنا
-        logout
+        profileData, setProfileData, getProfileData,
+        changeAvailability, logout
     };
 
     return (

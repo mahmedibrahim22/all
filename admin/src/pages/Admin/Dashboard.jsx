@@ -3,80 +3,84 @@ import { AdminContext } from '../../context/AdminContext'
 import { assets } from '../../assets/assets'
 
 const Dashboard = () => {
-
   const { aToken, getDashData, dashData, cancelAppointment } = useContext(AdminContext)
 
-  // جلب بيانات الإحصائيات أول ما الصفحة تفتح
   useEffect(() => {
     if (aToken) {
       getDashData()
     }
   }, [aToken])
 
-  // لو البيانات لسه بتحمل، اظهر رسالة تحميل بسيطة
   if (!dashData) {
-    return <div className='m-5 font-bold text-slate-500'>جاري تحميل الإحصائيات...</div>
+    return (
+      <div className='min-h-[60vh] flex items-center justify-center'>
+        <div className='w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin'></div>
+      </div>
+    )
   }
 
   return (
-    <div className='m-5' dir="rtl">
-      
-      {/* 1. قسم كروت الإحصائيات (Dynamic Stats) */}
-      <div className='flex flex-wrap gap-3'>
+    <div className='m-6' dir="rtl">
+      {/* كروت الإحصائيات */}
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
         
-        <div className='flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all'>
-          <img className='w-14' src={assets.doctor_icon} alt="" />
+        <div className='flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group'>
+          <div className='p-4 bg-teal-50 dark:bg-teal-500/10 rounded-2xl group-hover:bg-teal-500 transition-colors'>
+            <img className='w-8 dark:invert group-hover:invert-0' src={assets.doctor_icon} alt="" />
+          </div>
           <div>
-            <p className='text-xl font-semibold text-gray-600'>{dashData.doctors}</p>
-            <p className='text-gray-400'>الأطباء</p>
+            <p className='text-2xl font-black text-slate-800 dark:text-white'>{dashData.doctors}</p>
+            <p className='text-slate-500 dark:text-slate-400 font-bold text-sm'>الأطباء</p>
           </div>
         </div>
 
-        <div className='flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all'>
-          <img className='w-14' src={assets.appointments_icon} alt="" />
+        <div className='flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group'>
+          <div className='p-4 bg-orange-50 dark:bg-orange-500/10 rounded-2xl group-hover:bg-orange-500 transition-colors'>
+            <img className='w-8 dark:invert group-hover:invert-0' src={assets.appointments_icon} alt="" />
+          </div>
           <div>
-            <p className='text-xl font-semibold text-gray-600'>{dashData.appointments}</p>
-            <p className='text-gray-400'>المواعيد</p>
+            <p className='text-2xl font-black text-slate-800 dark:text-white'>{dashData.appointments}</p>
+            <p className='text-slate-500 dark:text-slate-400 font-bold text-sm'>المواعيد</p>
           </div>
         </div>
 
-        <div className='flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all'>
-          <img className='w-14' src={assets.patients_icon} alt="" />
+        <div className='flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group'>
+          <div className='p-4 bg-blue-50 dark:bg-blue-500/10 rounded-2xl group-hover:bg-blue-500 transition-colors'>
+            <img className='w-8 dark:invert group-hover:invert-0' src={assets.patients_icon} alt="" />
+          </div>
           <div>
-            <p className='text-xl font-semibold text-gray-600'>{dashData.patients}</p>
-            <p className='text-gray-400'>المرضى</p>
+            <p className='text-2xl font-black text-slate-800 dark:text-white'>{dashData.patients}</p>
+            <p className='text-slate-500 dark:text-slate-400 font-bold text-sm'>المرضى</p>
           </div>
         </div>
 
       </div>
 
-      {/* 2. قسم آخر الحجوزات (Latest Bookings) */}
-      <div className='bg-white mt-10 rounded border'>
-        <div className='flex items-center gap-2.5 px-4 py-4 mt-10 rounded-t border-b'>
-          <img src={assets.list_icon} alt="" />
-          <p className='font-semibold'>آخر الحجوزات</p>
+      {/* جدول آخر الحجوزات */}
+      <div className='bg-white dark:bg-slate-900 mt-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 overflow-hidden shadow-sm'>
+        <div className='flex items-center gap-3 px-8 py-6 border-b border-slate-50 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50'>
+          <img className='w-6 dark:invert' src={assets.list_icon} alt="" />
+          <p className='font-black text-slate-800 dark:text-white'>أحدث الحجوزات المضافة</p>
         </div>
 
-        <div className='pt-4 px-6 pb-4'>
-          {
-            dashData.latestAppointments.map((item, index) => (
-              <div className='flex items-center px-6 py-3 gap-3 hover:bg-gray-100' key={index}>
-                <img className='rounded-full w-10' src={item.docData.image} alt="" />
-                <div className='flex-1 text-sm'>
-                  <p className='text-gray-800 font-medium'>{item.docData.name}</p>
-                  <p className='text-gray-600'>{item.slotDate}</p>
-                </div>
-                {
-                  item.cancelled 
-                  ? <p className='text-red-400 text-xs font-medium'>ملغي</p>
-                  : <img onClick={() => cancelAppointment(item._id)} className='w-10 cursor-pointer' src={assets.cancel_icon} alt="" />
-                }
+        <div className='divide-y divide-slate-50 dark:divide-slate-800'>
+          {dashData.latestAppointments.map((item, index) => (
+            <div className='flex items-center px-8 py-5 gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors' key={index}>
+              <img className='rounded-2xl w-14 h-14 object-cover border-2 border-slate-100 dark:border-slate-700' src={item.docData.image} alt="" />
+              <div className='flex-1'>
+                <p className='text-slate-800 dark:text-white font-black'>د. {item.docData.name}</p>
+                <p className='text-slate-500 dark:text-slate-400 text-sm font-medium'>{item.slotDate}</p>
               </div>
-            ))
-          }
+              {item.cancelled 
+                ? <span className='px-4 py-1.5 bg-rose-50 dark:bg-rose-500/10 text-rose-500 rounded-full text-xs font-black'>ملغي</span>
+                : <button onClick={() => cancelAppointment(item._id)} className='p-2 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition-colors group'>
+                    <img className='w-6 opacity-50 group-hover:opacity-100' src={assets.cancel_icon} alt="إلغاء" />
+                  </button>
+              }
+            </div>
+          ))}
         </div>
       </div>
-
     </div>
   )
 }
